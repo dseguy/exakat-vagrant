@@ -8,12 +8,23 @@
   tags:
     - neo4j
 
+- name: Stop neo4j
+  shell: cd /home/vagrant/neo4j; ./bin/neo4j stop
+  tags:
+    - neo4j
+
 - name: Clean neo4j
   file: path=/home/vagrant/neo4j state=absent
 
 - name: update ulimit to 40000
-  lineinfile: dest=/etc/security/limits.conf  line="neo4j   soft    nofile  40000"
-  lineinfile: dest=/etc/security/limits.conf  line="neo4j   hard    nofile  40000"
+  lineinfile: dest=/etc/security/limits.conf  line="vagrant   soft    nofile  40000"
+  become: yes
+  tags:
+    - neo4j
+
+- name: update ulimit to 40000
+  lineinfile: dest=/etc/security/limits.conf  line="vagrant   hard    nofile  40000"
+  become: yes
   tags:
     - neo4j
 
@@ -49,9 +60,6 @@
   lineinfile: dest=/home/vagrant/neo4j/conf/neo4j-server.properties regexp="dbms.security.auth_enabled=true" line="dbms.security.auth_enabled=false"
   tags:
     - neo4j
-
-- name: Stop neo4j
-  shell: cd /home/vagrant/neo4j; ./bin/neo4j stop
 
 - name: Add sonatype repository to pom.xml
   lineinfile: dest=/home/vagrant/neo4j-gremlin-plugin/pom.xml regexp="    </contributors>" line="    </contributors>\n  \n  <repositories>\n   <repository>\n     <id>snapshots-repo</id>\n     <url>https://oss.sonatype.org/content/repositories/snapshots</url>\n     <releases><enabled>false</enabled></releases>\n     <snapshots><enabled>true</enabled></snapshots>\n   </repository>\n </repositories>\n"
