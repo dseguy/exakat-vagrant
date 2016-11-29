@@ -14,6 +14,8 @@
 - name: update ulimit to 40000
   lineinfile: dest=/etc/security/limits.conf  line="neo4j   soft    nofile  40000"
   lineinfile: dest=/etc/security/limits.conf  line="neo4j   hard    nofile  40000"
+  tags:
+    - neo4j
 
 - name: Downlad neo4j 2.3.7
   get_url: url=http://dist.neo4j.org/neo4j-community-2.3.7-unix.tar.gz dest=/home/vagrant/neo4j.tar.gz mode=0750

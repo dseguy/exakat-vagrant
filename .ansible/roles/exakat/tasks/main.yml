@@ -1,6 +1,6 @@
 ---
 - name: download latest exakat
-  get_url: url=http://dist.exakat.io/versions/index.php?file=latest dest=/home/vagrant/exakat.phar
+  get_url: url=http://dist.exakat.io/versions/index.php?file=latest dest=/home/vagrant/exakat.phar owner=vagrant
   tags:
     - exakat
 
@@ -9,7 +9,17 @@
   tags:
     - exakat
 
+- name: Give projects to vagrant
+  file: path=/home/vagrant/projects state=directory mode=0755 owner=vagrant recurse=yes
+  tags:
+    - neo4j
+
 - name: run doctor 
   shell: cd /home/vagrant/; php exakat.phar doctor
   tags:
     - exakat
+
+- name: Give neo4j to vagrant
+  file: path=/home/vagrant/config state=directory mode=0755 owner=vagrant recurse=yes
+  tags:
+    - neo4j
