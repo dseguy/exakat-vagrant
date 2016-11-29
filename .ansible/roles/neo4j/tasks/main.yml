@@ -8,10 +8,13 @@
   tags:
     - neo4j
 
-- name: Stop neo4j
+- name: Check if path exists
+  stat: path=/home/vagrant/neo4j
+  register: check_neo4j
+
+- name: It exists
   shell: cd /home/vagrant/neo4j; ./bin/neo4j stop
-  tags:
-    - neo4j
+  when: check_neo4j.stat.exists
 
 - name: Clean neo4j
   file: path=/home/vagrant/neo4j state=absent
@@ -82,11 +85,6 @@
 - name: Unzip gremlin to neo4j plugins
   unarchive: src=/home/vagrant/neo4j-gremlin-plugin/target/neo4j-gremlin-plugin-tp3-2.3.1-server-plugin.zip dest=/home/vagrant/neo4j/plugins/gremlin-plugin/ copy=no
 
-- name: Restart neo4j for gremlin
-  shell: cd /home/vagrant/neo4j; ./bin/neo4j restart
-  tags:
-    - neo4j
-
 - name: Clean neo4j-gremlin-plugin
   file: path=/home/vagrant/neo4j-gremlin-plugin state=absent
   tags:
@@ -101,3 +99,9 @@
   file: path=/home/vagrant/neo4j state=directory mode=0755 owner=vagrant recurse=yes
   tags:
     - neo4j
+
+- name: Restart neo4j for gremlin
+  shell: cd /home/vagrant/neo4j; ./bin/neo4j restart
+  tags:
+    - neo4j
+
