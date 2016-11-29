@@ -4,6 +4,29 @@
   tags:
     - exakat
 
+- name: run doctor 
+  shell: cd /home/vagrant/; php exakat.phar doctor
+  tags:
+    - exakat
+
+- name: update config for PHP 5.6
+  lineinfile: dest=./config/exakat.ini regexp=";php56        = /path/to/php56" line="php56        = /usr/local/bin/php56"
+  become: yes
+  tags:
+    - exakat
+
+- name: update config for PHP 7.0
+  lineinfile: dest=./config/exakat.ini regexp=";php70        = /path/to/php70" line="php70        = /usr/local/bin/php70"
+  become: yes
+  tags:
+    - exakat
+
+- name: update config for PHP 7.1
+  lineinfile: dest=./config/exakat.ini regexp=";php71        = /path/to/php71" line="php71        = /usr/local/bin/php71"
+  become: yes
+  tags:
+    - exakat
+
 - name: clean database
   shell: cd /home/vagrant/; php exakat.phar cleandb 
   tags:
@@ -12,14 +35,9 @@
 - name: Give projects to vagrant
   file: path=/home/vagrant/projects state=directory mode=0755 owner=vagrant recurse=yes
   tags:
-    - neo4j
-
-- name: run doctor 
-  shell: cd /home/vagrant/; php exakat.phar doctor
-  tags:
     - exakat
 
 - name: Give neo4j to vagrant
   file: path=/home/vagrant/config state=directory mode=0755 owner=vagrant recurse=yes
   tags:
-    - neo4j
+    - exakat
