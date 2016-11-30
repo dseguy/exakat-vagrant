@@ -49,12 +49,6 @@
   tags:
     - exakat
 
-- name: remove old PHP70 config
-  lineinfile: dest=./config/exakat.ini regexp="php70        = " line=""
-  become: yes
-  tags:
-    - exakat
-
 - name: Give projects to vagrant
   file: path=/home/vagrant/projects state=directory mode=0755 owner=vagrant recurse=yes
   tags:
