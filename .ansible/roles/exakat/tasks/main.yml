@@ -14,6 +14,12 @@
   tags:
     - exakat
 
+- name: set the running php exec
+  lineinfile: dest=./config/exakat.ini regexp="php          = " line="php          = /usr/local/bin/php"
+  become: yes
+  tags:
+    - exakat
+
 - name: remove old PHP70 config
   lineinfile: dest=./config/exakat.ini regexp="php70        = /usr/local/bin/php" line=""
   become: yes
@@ -40,6 +46,12 @@
 
 - name: clean database
   shell: cd /home/vagrant/; php exakat.phar cleandb 
+  tags:
+    - exakat
+
+- name: remove old PHP70 config
+  lineinfile: dest=./config/exakat.ini regexp="php70        = " line=""
+  become: yes
   tags:
     - exakat
 
