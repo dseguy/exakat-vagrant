@@ -1,13 +1,14 @@
 ---
 # tasks file for php
-- apt: update_cache=yes
-  tags:
-    - php
+#- package: update_cache=yes
+#  tags:
+#    - php
 
 # Common configurations to be run on all hosts
 # http://www.sitepoint.com/run-multiple-versions-php-one-server/
+# cache_valid_time=3600
 - name: Install default packages
-  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  package: pkg={{item}} state=latest update_cache=yes
   with_items:
     - gcc
     - make
